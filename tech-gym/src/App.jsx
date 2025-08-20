@@ -9,11 +9,14 @@ function App() {
   const [showQuizStart, setShowQuizStart] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScoreSummary, setShowScoreSummary] = useState(false);
+  const [answers, setAnswers] = useState([]);
+
+  const startQuiz = () => setShowQuizStart(false);
 
   return (
     <>
       <div>
-        {showQuizStart && <QuizStart />}
+        {showQuizStart && <QuizStart onStart={startQuiz}/>}
         {!showQuizStart && !showScoreSummary && <QuestionCard />}
         {!showQuizStart && showScoreSummary && <ScoreSummary />}
 

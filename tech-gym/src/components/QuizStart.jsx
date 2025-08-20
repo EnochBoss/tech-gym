@@ -1,8 +1,41 @@
 import React from 'react'
 
-const QuizStart = () => {
+const QuizStart = ({onStart}) => {
   return (
-    <div>QuizStart</div>
+    <div className="flex flex-col h-screen gap-y-6 bg-gray-900 items-center">
+      <img
+        className="h-40 w-40 mt-[100px] ml-[28px] mb-12"
+        src="../src/assets/tech-gym-head-icon.svg"
+        alt="TechGym Logo"
+      />
+
+      <img
+        className="h-auto w-60 mt-0 ml-0"
+        src="../src/assets/tech-gym-logo-1.svg"
+        alt="TechGym Logo"
+      />
+
+      <p className="text-gray-300 max-w-[55%] text-center text-sm mt-0">
+        Check your understanding of your tech field or subject that you are developing
+        competency in and see the progress you’ve made
+      </p>
+
+      <button className="bg-white  px-8 py-1 rounded-2xl mt-12 mb-12"
+      onClick={onStart}
+      >
+        Start
+      </button>
+
+      <h2 className="text-white font-medium text-center text-xl">
+        Last High Score
+      </h2>
+
+      <div>
+        <h1 className="bg-gray-100/20 px-8 py-3 mt-[-15px] text-white text-5xl font-bold">7 <span>OUT OF</span> 10</h1>
+      </div>
+
+      <p className="text-gray-600 text-sm pt-[70px]">Powered By: EBiNK Creatives</p>
+    </div>
   )
 }
 
