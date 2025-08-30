@@ -1,6 +1,7 @@
 import React from 'react'
 
-const QuizStart = ({onStart}) => {
+const QuizStart = ({onStart, totalScore, answers}) => {
+
   return (
     <div className="flex flex-col h-screen gap-y-6 bg-gray-900 items-center">
       <img
@@ -27,14 +28,14 @@ const QuizStart = ({onStart}) => {
       </button>
 
       <h2 className="text-white font-medium text-center text-xl">
-        Last High Score
+        Last Score
       </h2>
 
       <div>
-        <h1 className="bg-gray-100/20 px-8 py-3 mt-[-15px] text-white text-5xl font-bold">7 <span>OUT OF</span> 10</h1>
+        <h1 className="bg-gray-100/20 px-8 py-3 mt-[-15px] text-white text-5xl font-bold">{totalScore} <span>OUT OF</span> {answers.length}</h1>
       </div>
 
-      <p className="text-gray-600 text-sm pt-[70px]">Powered By: EBiNK Creatives</p>
+      <p className="text-gray-500 text-sm pt-[70px]">Powered By: EBiNK Creatives</p>
     </div>
   )
 }

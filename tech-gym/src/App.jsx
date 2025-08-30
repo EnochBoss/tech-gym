@@ -10,6 +10,7 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScoreSummary, setShowScoreSummary] = useState(false);
   const [answers, setAnswers] = useState([]);
+  const [totalScore, setTotalScore] = useState(0);
 
   // States for questions fetching and use
   const [questions, setQuestions] = useState([]);
@@ -44,7 +45,13 @@ function App() {
   return (
     <>
       <div>
-        {showQuizStart && <QuizStart onStart={startQuiz}/>}
+        {showQuizStart && (
+          <QuizStart
+            onStart={startQuiz}
+            totalScore={totalScore}
+            answers={answers}
+            />
+          )}
         {!showQuizStart && !showScoreSummary && (
           <QuestionCard 
             questions={questions}
@@ -55,7 +62,14 @@ function App() {
             setShowScoreSummary={setShowScoreSummary}
           />
         )}
-        {!showQuizStart && showScoreSummary && (<ScoreSummary questions={questions} answers={answers} />)}
+        {!showQuizStart && showScoreSummary && (
+          <ScoreSummary
+            questions={questions}
+            answers={answers}
+            totalScore={totalScore}
+            setTotalScore={setTotalScore}
+            />
+          )}
 
       </div>
     </>
