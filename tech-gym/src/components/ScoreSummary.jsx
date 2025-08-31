@@ -1,8 +1,9 @@
 import React from 'react'
 import { FaTrophy } from 'react-icons/fa'
+import { FaExchangeAlt } from 'react-icons/fa'
 
 
-const ScoreSummary = ({questions, answers, totalScore, setTotalScore}) => {
+const ScoreSummary = ({questions, answers, totalScore, setTotalScore, retakeQuiz, restartQuiz}) => {
   console.log(answers)
   const myScore = questions.filter((question, idx) => question.correct_answer === answers[idx]).length;
   setTotalScore(myScore);
@@ -16,18 +17,34 @@ const ScoreSummary = ({questions, answers, totalScore, setTotalScore}) => {
       <h2 className='text-white text-5xl mt-[-24px] mb-12'>{totalScore}/{questions.length}</h2>
      
       {questions.map((question, idx) => (
-        <div className='text-white child w-[70%]'>
+        <div key={idx} className='text-white child w-[70%]'>
           {(question.correct_answer === answers[idx]) ?
-            (<p key={idx} className='bg-green-700 border-amber-300 border-1 rounded-2xl text-center px-12 py-3 text-white font-bold'>{question.question}</p>)
+            (<p key={idx} className='bg-green-700 border-amber-300 border-1 rounded-2xl text-center px-12 py-3 text-white font-bold' dangerouslySetInnerHTML={{ __html: question.question }} />)
               : <div className='border-1 rounded-2xl flex flex-col gap-1 items-center'>
-                  <p key={idx} className='text-center px-12 py-3 bg-red-900 text-white font-semibold child w-full rounded-t-2xl
-                  '>{question.question}</p>
+                  <p key={idx} className='text-center px-12 py-3 bg-red-900 text-white font-semibold child w-full rounded-t-2xl' dangerouslySetInnerHTML={{ __html: question.question }} />
                   {/* <span className='text-white/70 text-sm mt-[5px] mb-[-5px]'>Correct Answer:</span> */}
-                  <h2 className='my-3 text-green-300 text-xl'>{answers[idx]}</h2>
+                  <h2 className='my-3 text-center text-green-300 text-xl' dangerouslySetInnerHTML={{ __html: answers[idx] }} />
                 </div>
           }          
         </div>
       ))}
+
+      <div className="flex flex-col md:flex-row gap-6 mt-10">
+        <button
+          onClick={retakeQuiz}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"
+        >
+          Retake Quiz (Same Category)
+        </button>
+        
+        <button
+          onClick={restartQuiz}
+          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded flex items-center gap-2"
+        >
+          Choose Another Category <FaExchangeAlt size={20} color="red" />
+        </button>
+      </div>
+
 
       <img
         className="h-auto w-40 mt-24 ml-0"
