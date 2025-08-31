@@ -11,33 +11,55 @@ function App() {
   const [showScoreSummary, setShowScoreSummary] = useState(false);
   const [answers, setAnswers] = useState([]);
   const [totalScore, setTotalScore] = useState(0);
+  const [quizCategory, setQuizCategory] = useState('');
+  const [categories, setCategories] = useState([])
 
+  
   // States for questions fetching and use
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const startQuiz = () => {setShowQuizStart(false)};
+  const startQuiz = async () => {
+  setIsLoading(true);
+  try {
+    const url = `https://opentdb.com/api.php?amount=10${quizCategory ? `&category=${quizCategory}` : ''}`
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Network error: ${response.status}`);
+    }
+    const data = await response.json();
+    setQuestions(data.results);
+    setShowQuizStart(false);
+  } catch (err) {
+    setError(err);
+    console.error('Error fetching questions:', err);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   useEffect(() => {
-    async function loadQuestions() {
+    async function loadCategories() {
       setIsLoading(true)
       try {
-        const response = await fetch("https://opentdb.com/api.php?amount=10")
-        if (!response.ok) {
-          throw new Error(`Network error: ${response.status}`)
+        const categoriesData = await fetch("https://opentdb.com/api_category.php")
+        if (!categoriesData.ok) {
+          throw new Error(`Network error: ${categoriesData.status}`)
         }
-        const data = await response.json()
-        setQuestions(data.results)
+        const catData = await categoriesData.json()
+        setCategories(catData.trivia_categories)
+        
       } catch (err) {
         setError(err)
-        console.error('Error fetching questions:', err)
+        console.error('Error fetching categories:', err)
       } finally {
         setIsLoading(false)
       }
     }
-    loadQuestions()
+    loadCategories()
   }, [])
+console.log(quizCategory)
 
   if (isLoading) return <p>Loading questions...</p>
   if (error && !questions) return <p>Error loading quiz: {error.message}</p>
@@ -48,8 +70,10 @@ function App() {
         {showQuizStart && (
           <QuizStart
             onStart={startQuiz}
-            totalScore={totalScore}
             answers={answers}
+            categories={categories}
+            quizCategory={quizCategory}
+            setQuizCategory={setQuizCategory}
             />
           )}
         {!showQuizStart && !showScoreSummary && (
